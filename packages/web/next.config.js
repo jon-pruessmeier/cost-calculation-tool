@@ -12,6 +12,14 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  async rewrites(){
+    return [
+      {
+        source: '/api/:path*',
+				destination: 'http://server:8080/:path*',
+      }
+    ]
+  }
 };
 
 const plugins = [
@@ -19,4 +27,4 @@ const plugins = [
   withNx,
 ];
 
-module.exports = composePlugins(...plugins)(nextConfig);
+module.exports = composePlugins(...plugins)(nextConfig)
