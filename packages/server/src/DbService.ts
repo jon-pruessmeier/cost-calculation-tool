@@ -12,37 +12,20 @@ export async function initializeContracts(db: Db): Promise<void> {
   const contractsCollection: Collection<MachineContract> =
     db.collection('contracts');
 
-  const contract1: MachineContract = {
-    _id: new ObjectId().toHexString(),
-    machineName: 'Demo Machine 1',
-    oneTimeFee: 1000,
-    usageFee: 200,
-  };
-
-  const contract2: MachineContract = {
-    _id: new ObjectId().toHexString(),
-    machineName: 'Demo Machine 2',
-    oneTimeFee: 1500,
-    usageFee: 250,
-  };
+  const contracts: MachineContract[] = [];
+  for (let i = 0; i <= 4; i++) {
+    contracts.push({
+      _id: new ObjectId().toHexString(),
+      machineName: `Demo Machine ${i + 1}`,
+      oneTimeFee: 1000 + 500 * i,
+      usageFee: 200 + 50 * i,
+    });
+  }
 
   //delete possible data from DB
   const result = await contractsCollection.deleteMany({});
   console.log(`${result.deletedCount} documents deleted.`);
-
-  const existingContract1 = await contractsCollection.findOne({
-    _id: 'contract1',
-  });
-  if (!existingContract1) {
-    await contractsCollection.insertOne(contract1);
-  }
-
-  const existingContract2 = await contractsCollection.findOne({
-    _id: 'contract2',
-  });
-  if (!existingContract2) {
-    await contractsCollection.insertOne(contract2);
-  }
+  await contractsCollection.insertMany(contracts);
 }
 
 export async function getContracts(db: Db): Promise<MachineContract[]> {

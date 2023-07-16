@@ -23,7 +23,11 @@ export function createContractsRouter(db: Db) {
       return res.status(400).json({ error: 'Missing request body' });
     }
     const { machineName, oneTimeFee, usageFee } = req.body;
-    if (!machineName || !oneTimeFee || !usageFee) {
+    if (
+      !machineName ||
+      (!oneTimeFee && oneTimeFee !== 0) ||
+      (!usageFee && usageFee !== 0)
+    ) {
       return res.status(400).json({
         error: 'Missing required fields',
         machineName: machineName ?? '',

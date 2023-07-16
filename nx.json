@@ -54,6 +54,11 @@
         "style": "css",
         "linter": "eslint"
       }
+    },
+    "@nx/express": {
+      "application": {
+        "linter": "eslint"
+      }
     }
   }
 }
